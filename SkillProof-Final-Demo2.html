@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SkillProof — Skill Verification Platform</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#111827;--muted:#667085;--line:#e5e7eb;--blue:#2563eb;--blue2:#eff6ff;--green:#16a34a;--amber:#d97706;--dark:#0f172a;--shadow:0 10px 30px rgba(15,23,42,.07)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.auth{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(135deg,#eef4ff,#f8fafc)}
+.authbox{width:min(440px,100%);background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow)}
+.logo{font-weight:900;font-size:25px;letter-spacing:-1px}.logo span{color:var(--blue)}
+.auth h1{font-size:30px;margin:30px 0 8px}.muted{color:var(--muted)}.field{margin:15px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;outline:none}.field textarea{min-height:110px;resize:vertical}
+.primary,.secondary,.google{width:100%;border:0;border-radius:10px;padding:12px 16px;font-weight:800}.primary{background:var(--blue);color:#fff}.secondary{background:#fff;border:1px solid var(--line);color:var(--ink)}.google{background:#fff;border:1px solid var(--line);margin:10px 0}.divider{display:flex;align-items:center;gap:10px;color:#98a2b3;font-size:12px;margin:16px 0}.divider:before,.divider:after{content:"";height:1px;background:var(--line);flex:1}
+.app{min-height:100vh}.top{height:66px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:5}.user{display:flex;align-items:center;gap:10px;font-weight:700}.avatar{width:34px;height:34px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center}
+.layout{display:flex}.side{width:230px;background:#fff;border-right:1px solid var(--line);min-height:calc(100vh - 66px);padding:18px 12px;position:fixed}.nav{display:grid;gap:5px}.nav button{background:transparent;border:0;text-align:left;padding:12px;border-radius:10px;color:#475467;font-weight:700}.nav button.active,.nav button:hover{background:var(--blue2);color:var(--blue)}.main{margin-left:230px;width:calc(100% - 230px);padding:28px;max-width:1500px}.back{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:9px;font-weight:700;margin-bottom:16px}
+h1{font-size:28px;margin:0 0 6px}h2{font-size:19px}.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,1fr)}.cards{grid-template-columns:repeat(3,1fr)}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 12px rgba(15,23,42,.03)}.stat{font-size:28px;font-weight:900;margin-top:5px}.tag{display:inline-block;padding:5px 8px;border-radius:999px;background:#f2f4f7;color:#475467;font-size:11px;font-weight:800;margin:3px}.tag.blue{background:#eff6ff;color:#1d4ed8}.tag.green{background:#ecfdf3;color:#15803d}.task{display:flex;flex-direction:column;min-height:230px}.task .grow{flex:1}.task h3{margin:10px 0 7px}.task p{font-size:13px;color:var(--muted);line-height:1.5}.btnrow{display:flex;gap:8px}.btnrow button{flex:1}.small{font-size:12px}.progress{height:8px;background:#edf0f4;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:var(--blue);border-radius:10px}.workspace{display:grid;grid-template-columns:270px minmax(0,1fr) 320px;gap:14px}.workarea{min-height:540px}.workhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.autosave{font-size:12px;color:var(--green);font-weight:800}.editor{width:100%;min-height:260px;background:#0b1220;color:#e5e7eb;border:0;border-radius:12px;padding:16px;font-family:ui-monospace,monospace;line-height:1.5}.output{background:#0b1220;color:#cbd5e1;border-radius:12px;padding:15px;min-height:100px;margin-top:12px;white-space:pre-wrap;font-family:ui-monospace,monospace}.mentor{height:100%;display:flex;flex-direction:column}.chat{flex:1;min-height:270px;max-height:390px;overflow:auto;background:#f8fafc;border-radius:12px;padding:12px}.msg{padding:10px 12px;border-radius:12px;margin:8px 0;font-size:13px;line-height:1.45}.ai{background:#fff;border:1px solid var(--line)}.me{background:#dbeafe;margin-left:30px}.chatinput{display:flex;gap:7px;margin-top:9px}.chatinput input{flex:1;padding:10px;border:1px solid var(--line);border-radius:9px}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:10px;border-bottom:1px solid var(--line);text-align:left}.modalbg{position:fixed;inset:0;background:rgba(15,23,42,.45);display:grid;place-items:center;padding:20px;z-index:20}.modal{background:#fff;border-radius:18px;width:min(650px,100%);max-height:90vh;overflow:auto;padding:24px}.close{float:right;border:0;background:#f2f4f7;border-radius:8px;padding:6px 9px}.notice{padding:12px;border-radius:10px;background:#f8fafc;border:1px solid var(--line);font-size:13px}.evalrow{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}.good{color:var(--green);font-weight:800}.warn{color:var(--amber);font-weight:800}
+@media(max-width:1050px){.workspace{grid-template-columns:1fr}.side{width:76px}.side .nav button{font-size:0;text-align:center}.side .nav button:before{content:"•";font-size:20px}.main{margin-left:76px;width:calc(100% - 76px)}.cards{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.top{padding:0 12px}.main{padding:18px;margin-left:0;width:100%}.side{display:none}.cards,.stats,.split{grid-template-columns:1fr}.workspace{grid-template-columns:1fr}.top .user span{display:none}}
+</style>
+</head>
+<body>
+
+<section id="auth" class="auth">
+  <div class="authbox">
+    <div class="logo">Skill<span>Proof</span></div>
+    <div id="signinBox">
+      <h1>Welcome back</h1><p class="muted">Prove your skills through actual work.</p>
+      <button class="google" onclick="demoLogin()">Continue with Google</button>
+      <div class="divider">OR</div>
+      <div class="field"><label>Email</label><input id="loginEmail" placeholder="you@gmail.com"></div>
+      <div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div>
+      <button class="primary" onclick="demoLogin()">Sign In</button>
+      <p class="small muted">New here? <a href="#" onclick="toggleAuth();return false">Create an account</a></p>
+    </div>
+    <div id="signupBox" class="hidden">
+      <h1>Create account</h1><p class="muted">Start building evidence of your skills.</p>
+      <div class="field"><label>Full name</label><input id="signupName" placeholder="Abdul Baseeth A"></div>
+      <div class="field"><label>Email</label><input placeholder="you@gmail.com"></div>
+      <div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div>
+      <button class="primary" onclick="demoLogin()">Create Account</button>
+      <p class="small muted">Already have an account? <a href="#" onclick="toggleAuth();return false">Sign in</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="app" class="app hidden">
+<header class="top">
+  <div class="logo">Skill<span>Proof</span></div>
+  <div class="user"><div class="avatar">AB</div><span>Abdul Baseeth A</span><button class="secondary" style="width:auto;padding:7px 10px" onclick="logout()">Logout</button></div>
+</header>
+<div class="layout">
+<aside class="side">
+  <nav class="nav">
+    <button class="active" onclick="page('dashboard',this)">🏠 Dashboard</button>
+    <button onclick="page('tasks',this)">📚 Tasks</button>
+    <button onclick="page('proof',this)">📁 My Proof</button>
+    <button onclick="page('skills',this)">📈 Skills</button>
+    <button onclick="page('activity',this)">🕘 Activity</button>
+    <button onclick="page('profile',this)">👤 Profile</button>
+  </nav>
+</aside>
+<main id="main" class="main"></main>
+</div>
+</section>
+
+<div id="modal" class="modalbg hidden"><div class="modal" id="modalBody"></div></div>
+
+<script>
+const tasks=[
+{id:1,course:"B.Sc Data Science",subject:"Python",skill:"Data Cleaning",title:"Student Data Cleaner",type:"Python Coding",difficulty:"Intermediate",time:"45 min",desc:"Clean a messy student dataset, identify quality issues and prepare it for analysis."},
+{id:2,course:"B.Sc Data Science",subject:"Power BI",skill:"Data Visualization",title:"Sales Insight Dashboard",type:"Dashboard",difficulty:"Intermediate",time:"60 min",desc:"Build a dashboard that reveals useful sales patterns and business insights."},
+{id:3,course:"B.Sc Data Science",subject:"Excel",skill:"Business Analysis",title:"Budget Investigation",type:"Spreadsheet",difficulty:"Beginner",time:"30 min",desc:"Compare planned and actual spending and explain the largest variances."},
+{id:4,course:"B.Sc Physics",subject:"Mechanics",skill:"Experimental Physics",title:"Projectile Motion Investigation",type:"Physics Lab",difficulty:"Intermediate",time:"45 min",desc:"Use experimental observations to investigate projectile motion and compare results."},
+{id:5,course:"B.Sc Physics",subject:"Electronics",skill:"Circuit Analysis",title:"RC Circuit Investigation",type:"Physics Lab",difficulty:"Intermediate",time:"50 min",desc:"Analyse an RC circuit using observations, calculations and a graph."},
+{id:6,course:"B.Sc Chemistry",subject:"Analytical Chemistry",skill:"Lab Analysis",title:"Titration Result Analysis",type:"Lab Analysis",difficulty:"Intermediate",time:"40 min",desc:"Analyse titration readings, calculate the result and explain experimental uncertainty."},
+{id:7,course:"B.Com",subject:"Accounting",skill:"Reconciliation",title:"Bank Reconciliation Investigation",type:"Accounting Workspace",difficulty:"Intermediate",time:"35 min",desc:"Investigate differences between the cash book and bank statement."},
+{id:8,course:"BBA",subject:"Marketing",skill:"Business Analysis",title:"Customer Survey Investigation",type:"Business Analysis",difficulty:"Beginner",time:"35 min",desc:"Turn customer survey evidence into a clear business recommendation."},
+{id:9,course:"B.Sc Mathematics",subject:"Statistics",skill:"Data Analysis",title:"Survey Data Analysis",type:"Statistics",difficulty:"Intermediate",time:"40 min",desc:"Choose an appropriate statistical method and interpret the result."},
+{id:10,course:"BCA",subject:"Java",skill:"Programming",title:"Student Management System",type:"Java Coding",difficulty:"Intermediate",time:"60 min",desc:"Build core functionality for a simple student management system."},
+{id:11,course:"BCA",subject:"SQL",skill:"Database Querying",title:"Library Database Investigation",type:"SQL Workspace",difficulty:"Intermediate",time:"45 min",desc:"Query a library database to answer real operational questions."},
+{id:12,course:"B.Des",subject:"Design",skill:"Product Design",title:"Product Design Brief",type:"Design Studio",difficulty:"Beginner",time:"45 min",desc:"Create a product concept from a real user problem and justify your design decisions."}
+];
+let currentTask=null,currentPage="dashboard",timer=null;
+const state={saved:{},evaluations:{},understanding:{},skills:{Python:82,"Power BI":68,Excel:74,SQL:55,Statistics:61},activity:["Logged in to SkillProof","Completed Student Data Cleaner","Saved Version 2 of Student Data Cleaner"]};
+
+function demoLogin(){document.getElementById("auth").classList.add("hidden");document.getElementById("app").classList.remove("hidden");page("dashboard");}
+function logout(){document.getElementById("app").classList.add("hidden");document.getElementById("auth").classList.remove("hidden")}
+function toggleAuth(){document.getElementById("signinBox").classList.toggle("hidden");document.getElementById("signupBox").classList.toggle("hidden")}
+function page(name,el){
+ currentPage=name;if(el){document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));el.classList.add("active")}
+ const m=document.getElementById("main");window.scrollTo(0,0);
+ if(name==="dashboard")m.innerHTML=dashboard();
+ if(name==="tasks")m.innerHTML=tasksPage();
+ if(name==="proof")m.innerHTML=proofPage();
+ if(name==="skills")m.innerHTML=skillsPage();
+ if(name==="activity")m.innerHTML=activityPage();
+ if(name==="profile")m.innerHTML=profilePage();
+}
+function dashboard(){return `<div><p class="muted small">Good evening, Abdul 👋</p><h1>Dashboard</h1><p class="muted">Build evidence of what you can actually demonstrate.</p>
+<div class="grid stats" style="margin:22px 0">${stat("Skills Demonstrated","5","↑ 2 this month")}${stat("Tasks Completed","7","Real-world tasks")}${stat("Proof Records","5","Evidence-backed")}${stat("Overall Progress","72%","Demonstration progress")}</div>
+<h2>Recommended tasks</h2><div class="grid cards">${tasks.slice(0,3).map(taskCard).join("")}</div>
+<div class="grid split" style="margin-top:18px"><div class="card"><h2>Recent activity</h2>${state.activity.slice(0,4).map(x=>`<div class="notice" style="margin:7px 0">✓ ${x}</div>`).join("")}</div><div class="card"><h2>Skill progress</h2>${Object.entries(state.skills).slice(0,4).map(([k,v])=>skillBar(k,v)).join("")}</div></div></div>`}
+function stat(a,b,c){return `<div class="card"><div class="muted small">${a}</div><div class="stat">${b}</div><div class="muted small">${c}</div></div>`}
+function taskCard(t){return `<div class="card task"><div><span class="tag blue">${t.course}</span><span class="tag">${t.type}</span><h3>${t.title}</h3><p>${t.desc}</p><span class="tag">${t.difficulty}</span><span class="tag">${t.time}</span></div><div class="btnrow"><button class="primary" onclick="openTask(${t.id})">Open Workroom</button></div></div>`}
+function tasksPage(){return `<button class="back" onclick="historyBack()">← Back</button><h1>Task Library</h1><p class="muted">Choose a real-world task. Your workspace adapts to the skill.</p><div class="field" style="max-width:480px"><input id="search" placeholder="Search tasks, skills or subjects..." oninput="filterTasks()"></div><div id="taskGrid" class="grid cards">${tasks.map(taskCard).join("")}</div>`}
+function filterTasks(){let q=document.getElementById("search").value.toLowerCase();document.getElementById("taskGrid").innerHTML=tasks.filter(t=>Object.values(t).some(v=>String(v).toLowerCase().includes(q))).map(taskCard).join("")}
+function openTask(id){currentTask=tasks.find(t=>t.id===id);renderWorkspace();history.pushState({work:true},"","#workroom");}
+function historyBack(){if(currentPage!=="dashboard")page("dashboard");else window.history.back()}
+window.onpopstate=()=>{if(currentPage!=="dashboard")page("dashboard");else page("tasks")}
+function renderWorkspace(){
+ const t=currentTask,m=document.getElementById("main");
+ m.innerHTML=`<button class="back" onclick="historyBack()">← Back to Tasks</button>
+ <div class="workhead"><div><span class="tag blue">${t.course}</span><span class="tag">${t.subject}</span><h1>${t.title}</h1><p class="muted">${t.desc}</p></div><span class="autosave" id="saveState">● Auto-saved</span></div>
+ <div class="workspace">
+ <div class="card"><h2>Task Brief</h2><p class="small">${t.desc}</p><div class="notice"><b>Skill:</b> ${t.skill}<br><b>Workspace:</b> ${t.type}<br><b>Time:</b> ${t.time}</div><h3>Requirements</h3><ul class="small"><li>Show your reasoning</li><li>Use evidence from your work</li><li>Be ready to explain your decisions</li></ul><button class="secondary" onclick="showVersions()">↔ View Versions</button></div>
+ <div class="card workarea">${workspace(t)}<div class="btnrow" style="margin-top:12px"><button class="secondary" onclick="runWork()">▶ Run / Preview</button><button class="primary" onclick="submitEval()">Submit for AI Evaluation</button></div></div>
+ <div class="card mentor"><h2>🤖 SkillGuide</h2><p class="small muted">I guide your thinking — I don't do the task for you.</p><div id="chat" class="chat"><div class="msg ai">Tell me what you're stuck on, what you tried, or what you want to understand.</div></div><div class="chatinput"><input id="chatq" placeholder="Ask SkillGuide..." onkeydown="if(event.key==='Enter')askGuide()"><button class="primary" style="width:auto" onclick="askGuide()">Send</button></div></div>
+ </div>`;
+ const work=document.getElementById("workInput");if(work){work.value=state.saved[t.id]||defaultWork(t);work.addEventListener("input",autoSave)}
+}
+function defaultWork(t){if(t.type.includes("Coding"))return t.subject==="Python"?"# Start by inspecting the data\\n# Write your cleaning steps here":"// Start by defining the required functionality";if(t.type==="SQL Workspace")return "-- Write your SQL query here";if(t.type==="Physics Lab")return "Observations:\\n\\nCalculations:\\n\\nConclusion:";if(t.type==="Lab Analysis")return "Observations:\\n\\nAnalysis:\\n\\nConclusion:";return "Enter your work, reasoning, observations or analysis here..."}
+function workspace(t){if(t.type.includes("Coding")||t.type==="SQL Workspace")return `<label class="small"><b>${t.type==="SQL Workspace"?"SQL Query":"Work Area"}</b></label><textarea id="workInput" class="editor"></textarea><div class="output" id="output">Output will appear here after Run / Preview.</div>`;
+if(t.type==="Physics Lab")return `<div class="split"><div><b>Experimental Observations</b><textarea id="workInput" class="field" style="min-height:210px"></textarea></div><div><b>Graph / Result</b><div class="notice" style="height:210px;display:grid;place-items:center">📈 Graph preview area</div></div></div><div class="field"><label>Calculations & reasoning</label><textarea class="field"></textarea></div>`;
+if(t.type==="Lab Analysis")return `<label>Observations & analysis</label><textarea id="workInput" class="field" style="min-height:300px"></textarea>`;
+if(t.type==="Dashboard")return `<div class="notice"><b>Dataset:</b> Sales_Q1.csv — sample dataset loaded</div><div class="split" style="margin-top:12px"><textarea id="workInput" class="field" placeholder="Dashboard plan, measures, filters and insights..."></textarea><div class="notice">📊 Dashboard canvas<br><br>Drop/select visuals here in the full workspace.</div></div>`;
+if(t.type==="Spreadsheet"||t.type==="Accounting Workspace")return `<table class="table"><tr><th>Category</th><th>Planned</th><th>Actual</th><th>Variance</th></tr><tr><td>Operations</td><td>₹40,000</td><td>₹46,000</td><td>+₹6,000</td></tr><tr><td>Marketing</td><td>₹25,000</td><td>₹21,000</td><td>-₹4,000</td></tr><tr><td>Travel</td><td>₹15,000</td><td>₹19,000</td><td>+₹4,000</td></tr></table><textarea id="workInput" class="field" placeholder="Investigate the largest variances and explain your conclusion..."></textarea>`;
+if(t.type==="Statistics")return `<div class="notice">Dataset: 12 survey observations loaded.</div><textarea id="workInput" class="field" style="min-height:300px" placeholder="Choose method → calculate → interpret..."></textarea>`;
+if(t.type==="Design Studio")return `<div class="notice">Design brief: Identify the user problem, propose a concept and justify the design decisions.</div><textarea id="workInput" class="field" style="min-height:300px" placeholder="Concept, user need, design decisions, rationale..."></textarea>`;
+return `<textarea id="workInput" class="field" style="min-height:330px"></textarea>`}
+function autoSave(){clearTimeout(timer);document.getElementById("saveState").textContent="● Saving...";timer=setTimeout(()=>{state.saved[currentTask.id]=document.getElementById("workInput").value;state.activity.unshift("Auto-saved work for "+currentTask.title);document.getElementById("saveState").textContent="● Auto-saved just now"},500)}
+function runWork(){let out=document.getElementById("output");if(out){out.textContent=currentTask.type==="SQL Workspace"?"Query executed successfully.\\n3 rows returned.":"Run completed.\\nYour work produced an output preview."; }else alert("Preview generated for this workspace.");}
+function askGuide(){let input=document.getElementById("chatq"),q=input.value.trim();if(!q)return;let chat=document.getElementById("chat");chat.innerHTML+=`<div class="msg me">${escapeHtml(q)}</div>`;let a=guide(q,currentTask);chat.innerHTML+=`<div class="msg ai">${a}</div>`;input.value="";chat.scrollTop=chat.scrollHeight}
+function guide(q,t){let x=q.toLowerCase();if(/error|wrong|fail|not work|bug/.test(x))return `Let's debug it step by step. First identify the exact input, the step where the result changes, and what result you expected. What does the current output tell you?`;
+if(/why|explain|concept|meaning/.test(x))return `For ${t.skill}, start with the underlying concept before changing your work. Explain in your own words what the method is supposed to achieve, then connect it to the evidence in your task.`;
+if(/next|start|begin|what should/.test(x))return `Start by breaking the task into: (1) understand the evidence, (2) choose a method, (3) perform the work, (4) check the result. Which of these have you completed?`;
+if(/alternative|another|different method/.test(x))return `You can consider an alternative method. Compare its assumptions, expected output and trade-offs with your current approach before choosing.`;
+return `Good question. I won't give you the final answer. For this ${t.type} task, show me what you have tried and the evidence you are looking at. Then we can decide what to investigate next.`}
+function submitEval(){autoSave();setTimeout(()=>{state.evaluations[currentTask.id]={correct:"Strong",approach:"Good",problem:"Strong",completion:"Ready",score:82};state.activity.unshift("Submitted "+currentTask.title+" for AI evaluation");showEvaluation();},300)}
+function showEvaluation(){let e=state.evaluations[currentTask.id]||{correct:"Pending",approach:"Pending",problem:"Pending",completion:"Pending",score:"—"};modal(`<button class="close" onclick="closeModal()">×</button><h2>AI Evaluation</h2><p class="muted">${currentTask.title}</p>${evalrow("Correctness",e.correct)}${evalrow("Approach",e.approach)}${evalrow("Problem Solving",e.problem)}${evalrow("Task Completion",e.completion)}<div class="notice" style="margin:14px 0"><b>Demonstration progress: ${e.score}%</b><br><span class="small">This is evidence-based progress, not an exam mark.</span></div><button class="primary" onclick="showUnderstanding()">Continue to Understanding Check</button>`)}
+function evalrow(a,b){return `<div class="evalrow"><b>${a}</b><span class="${b==="Strong"||b==="Ready"?"good":"warn"}">${b}</span></div>`}
+function showUnderstanding(){let qs=[`Why did you choose your current approach for "${currentTask.title}"?`,`What would you change if one important input or condition changed?`,`How would you verify that your final result is reliable?`];modal(`<button class="close" onclick="closeModal()">×</button><h2>Understanding Check</h2><p class="muted">Answer based on your own submitted work.</p>${qs.map((q,i)=>`<div class="field"><label>${i+1}. ${q}</label><textarea id="uq${i}" placeholder="Explain in your own words..."></textarea></div>`).join("")}<button class="primary" onclick="submitUnderstanding()">Submit Answers</button>`)}
+function submitUnderstanding(){let answers=[0,1,2].map(i=>document.getElementById("uq"+i).value.trim());if(answers.some(x=>!x)){alert("Please answer all three questions.");return}state.understanding[currentTask.id]={answers,score:86};state.activity.unshift("Completed understanding check for "+currentTask.title);state.skills[currentTask.skill]=(state.skills[currentTask.skill]||60)+4;modal(`<button class="close" onclick="closeModal()">×</button><h2>Understanding Verified ✓</h2><p>Your answers have been recorded as part of the evidence.</p><div class="notice"><b>Understanding: 86%</b><br>Evidence record updated.</div><button class="primary" onclick="closeModal();page('proof')">View My Proof</button>`)}
+function proofPage(){let done=Object.keys(state.evaluations);return `<button class="back" onclick="historyBack()">← Back</button><h1>My Proof</h1><p class="muted">Evidence of demonstrated ability.</p><div class="grid cards">${(done.length?done.map(id=>{let t=tasks.find(x=>x.id==id);return `<div class="card"><span class="tag green">Evaluated</span><h3>${t.title}</h3><p class="muted small">${t.course} · ${t.skill}</p><div class="progress"><i style="width:${state.evaluations[id].score}%"></i></div><p class="small"><b>${state.evaluations[id].score}% demonstration progress</b></p><button class="secondary" onclick="currentTask=tasks.find(x=>x.id==${id});showEvaluation()">View Evaluation</button></div>`}).join(""):`<div class="card"><h3>No proof records yet</h3><p class="muted">Complete a task and submit it for evaluation.</p></div>`)}</div>`}
+function skillsPage(){return `<button class="back" onclick="historyBack()">← Back</button><h1>Skills</h1><p class="muted">Your demonstration progress across skills.</p><div class="grid cards" style="margin-top:18px">${Object.entries(state.skills).map(([k,v])=>`<div class="card"><div style="display:flex;justify-content:space-between"><b>${k}</b><b>${Math.min(v,100)}%</b></div><div class="progress" style="margin-top:12px"><i style="width:${Math.min(v,100)}%"></i></div><p class="small muted">Based on tasks, work evidence and understanding.</p></div>`).join("")}</div>`}
+function activityPage(){return `<button class="back" onclick="historyBack()">← Back</button><h1>Activity</h1><div class="card" style="margin-top:18px">${state.activity.map((x,i)=>`<div class="evalrow"><span>${x}</span><span class="muted small">${i+1} · recent</span></div>`).join("")}</div>`}
+function profilePage(){return `<button class="back" onclick="historyBack()">← Back</button><h1>Profile</h1><div class="card" style="max-width:700px;margin-top:18px"><div class="avatar" style="width:60px;height:60px;font-size:20px">AB</div><div class="field"><label>Full name</label><input value="Abdul Baseeth A"></div><div class="field"><label>Course</label><input value="B.Sc Data Science"></div><div class="field"><label>Department</label><input value="Data Science"></div><div class="field"><label>Bio</label><textarea>I build practical skills through real-world tasks and evidence.</textarea></div><button class="primary" onclick="alert('Profile saved in this demo.')">Save Profile</button></div>`}
+function skillBar(k,v){return `<div style="margin:14px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><b>${k}</b><span>${v}%</span></div><div class="progress"><i style="width:${v}%"></i></div></div>`}
+function showVersions(){modal(`<button class="close" onclick="closeModal()">×</button><h2>Work Versions</h2><div class="notice">Version 3 · Final draft · Auto-saved</div><div class="notice" style="margin-top:8px">Version 2 · Improved reasoning</div><div class="notice" style="margin-top:8px">Version 1 · Initial attempt</div>`)}
+function modal(x){document.getElementById("modalBody").innerHTML=x;document.getElementById("modal").classList.remove("hidden")}
+function closeModal(){document.getElementById("modal").classList.add("hidden")}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+page("dashboard");
+</script>
+</body>
+</html>
